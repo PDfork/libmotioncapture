@@ -34,7 +34,10 @@ namespace libmotioncapture {
     }
 
     // This is the lowest latency option
-    pImpl->client.SetStreamMode(ViconDataStreamSDK::CPP::StreamMode::ServerPush);
+    pImpl->client.SetStreamMode(ViconDataStreamSDK::CPP::StreamMode::ServerPush); // blocking call
+    //pImpl->client.SetStreamMode(ViconDataStreamSDK::CPP::StreamMode::ClientPullPreFetch); //non Bllocking, by FLW we had bad Alloc() errors with this, we don't know why
+    //pImpl->client.SetStreamMode(ViconDataStreamSDK::CPP::StreamMode::ClientPull); never tried, blocking
+
 
     // Set the global up axis
     pImpl->client.SetAxisMapping(Direction::Forward,
@@ -60,8 +63,12 @@ namespace libmotioncapture {
 
   void MotionCaptureVicon::waitForNextFrame()
   {
-    while (pImpl->client.GetFrame().Result != Result::Success) {
+    while (pImpl->client.GetFrame().Result != Result::Success) { // behindert
     }
+  }
+
+  bool MotionCaptureVicon::waitForNextFrameNonBlocking() {
+    return pImpl->client.GetFrame().Result == Result::Success;
   }
 
   void MotionCaptureVicon::getObjects(

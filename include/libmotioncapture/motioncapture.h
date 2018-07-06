@@ -97,6 +97,8 @@ namespace libmotioncapture {
     // waits until a new frame is available
     virtual void waitForNextFrame() = 0;
 
+    virtual bool waitForNextFrameNonBlocking() { return false; } // it's like waitForNextFrame but without  blocking
+
     // Query data
 
     // returns reference to objects available in the current frame
@@ -126,5 +128,3 @@ namespace libmotioncapture {
   };
 
 } // namespace libobjecttracker
-
-

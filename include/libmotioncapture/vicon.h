@@ -33,6 +33,7 @@ namespace libmotioncapture {
 
     // implementations for MotionCapture interface
     virtual void waitForNextFrame();
+    virtual bool waitForNextFrameNonBlocking(); // it's like waitForNextFrame but without  blocking
     virtual void getObjects(std::vector<Object>& result) const;
     virtual void getObjectByName(
       const std::string& name,
@@ -51,5 +52,3 @@ namespace libmotioncapture {
   };
 
 } // namespace libobjecttracker
-
-
